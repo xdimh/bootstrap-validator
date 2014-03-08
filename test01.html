@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    
+     	<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+		<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script> 
+        <script type="text/javascript" src="js/bootstrap-validator2.0.js"></script>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    </head>
+    <script type="text/javascript">
+        jQuery(function($){
+           
+            var config = [
+                {
+                    dataEleSelector : '#td01 span',
+                    restrictEleSelector : '#td01',
+                    errorContainer : '#td01',
+                    ruleNames: 'required range'
+                }
+                ,{
+                    dataEleSelector : '#td02 span',
+                    restrictEleSelector : '#td02',
+                    errorContainer : '#td02',
+                    ruleNames: 'range'
+                }
+                ,{
+                    dataEleSelector : '#td03 span',
+                    restrictEleSelector : '#td03',
+                    errorContainer : '#td03',
+                    ruleNames: 'range'
+                }
+            ];
+
+            
+
+           $('#validate_example').on('click.editor','i',function(event){
+                var $target = $(event.target),
+                    $pTd = $target.closest('td');
+                $pTd.css({
+                    'data-height' : $pTd.height()
+                });
+                $pTd.css({'padding': 0})
+                    .find('span,i').hide()
+                                   .end()
+                    .find('input').css({
+                                    border : 'none'
+                                  })
+                                  .outerWidth($pTd.width())
+                                  .show()
+                                  .focus();
+
+           });
+
+           $('#validate_example').on('blur.input','input',function(event){
+                var $target = $(event.target),
+                    $pTd = $target.closest('td'),
+                    width = $target.outerWidth(),
+                    inputValue =  $target.val();
+                $target.hide();
+                $pTd.css({
+                      padding : '8px'
+                    })
+                    .find('span').text(inputValue)
+                                 .show()
+                                 .end()
+                    .find('i').show();
+           });
+
+          /* $('#validate_example td').each(function(index){
+                var $td = $(this);
+                $td.tooltip({
+                    container : $td
+                });
+           });
+*/
+           $("#btnsubmit").bind('click',function(event){
+                var validator = new Validator(config);
+                validator.validate();
+                console.log(validator.isValid());
+           });
+           
+        });
+    </script>
+    <style type="text/css">
+       #validate_example {
+         table-layout:fixed;
+       }
+       #validate_example td {
+            position: relative;
+            height: 20px;
+        }
+
+       #validate_example td i {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+       }
+
+
+       #validate_example td i:hover {
+            background-color: rgba(255,0,0,.25);
+            cursor: pointer;
+       }
+
+       #validate_example td input {
+            margin: 0px;
+            width: 100px;
+            height: 100%;
+       }
+
+       #validate_example td input:focus {
+           -webkit-box-shadow: none;
+           box-shadow: none;
+       }
+    </style>
+
+    <body>
+        <div class="container" style="margin-top:100px;">
+            <div class="row">
+                <div class="offset4 span4">
+                    <table id="validate_example" class="table table-bordered">
+                        <tr>
+                            <td id="td01" data-range="1,2,3" data-placement="left">
+                                <span>12345</span>
+                                <i class="icon-pencil"></i>
+                                <input type="text" style="display:none;"/>
+
+                            </td>
+                             <td id="td02" data-range="理工类,综合类,财经类">
+                                <span>12345</span>
+                                <i class="icon-pencil"></i>
+                                <input type="text" style="display:none;"/>
+                            </td>
+       
+                        <tr>
+                            <td id="td03" data-range="理科,文科">
+                                <span>12345</span>
+                                <i class="icon-pencil"></i>
+                                <input type="text" style="display:none;"/>
+                            </td>
+                             <td data-toggle="tooltip" title="td4">
+                                <span>12345</span>
+                                <i class="icon-pencil"></i>
+                                <input type="text" style="display:none;"/>
+                            </td>
+                        </tr>
+                   </table>
+                </div>
+            </div>
+           <div class="row">
+              <button id="btnsubmit" type="button" class="offset4 span4 btn btn-primary">提交</button>
+           </div>
+       </div>
+    </body>
+</html>
